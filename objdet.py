@@ -4,16 +4,6 @@ import argparse
 import numpy as np
 
 ap = argparse.ArgumentParser()
-ap.add_argument('-i', '--image', required=True,
-                help = 'dog.jpg')
-ap.add_argument('-c', '--config', required=True,
-                help = 'yolov3.cfg')
-ap.add_argument('-w', '--weights', required=True,
-                help = 'yolov3.weights')
-ap.add_argument('-cl', '--classes', required=True,
-                help = 'yolov3.txt')
-args = ap.parse_args()
-
 
 def get_output_layers(net):
     
@@ -37,7 +27,7 @@ def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
     cv2.putText(img, label, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
     
-image = cv2.imread(args.image)
+image = cv2.imread(input("enter the location :44 \n"))
 
 Width = image.shape[1]
 Height = image.shape[0]
@@ -45,12 +35,12 @@ scale = 0.00392
 
 classes = None
 
-with open(args.classes, 'r') as f:
+with open('yolov3.txt', 'r') as f:
     classes = [line.strip() for line in f.readlines()]
 
 COLORS = np.random.uniform(0, 255, size=(len(classes), 3))
 
-net = cv2.dnn.readNet(args.weights, args.config)
+net = cv2.dnn.readNet('yolov3.weights', 'yolov3.cfg')
 
 blob = cv2.dnn.blobFromImage(image, scale, (416,416), (0,0,0), True, crop=False)
 
